@@ -1,4 +1,72 @@
+"use client";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faLinkedin, faGithub, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import ThemeToggle from '@/components/ThemeToggle'
+import {Dock} from '@/components/ui/dock'
+
+// Define the props interface for DockIcon
+interface DockIconProps {
+    size: number;
+    magnification: number;
+    distance: number;
+    children: React.ReactNode;
+}
+
+// Update the DockIcon component to accept the new props and add animation
+const DockIcon: React.FC<DockIconProps> = ({ size, magnification, distance, children }) => {
+    return (
+        <div
+            style={{
+                fontSize: size,
+                transition: 'transform 0.3s ease', // Animation for scaling
+                transform: `scale(${1 + magnification / 100})`, // Scale based on magnification
+                margin: `${distance}px`, // Use distance for margin
+                display: 'inline-block', // Ensure proper spacing
+                verticalAlign: 'middle', // Align icons with text
+            }}
+            onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = `scale(${1 + (magnification + 40) / 100})`; // Scale up on hover
+            }}
+            onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = `scale(${1 + magnification / 100})`; // Scale back on leave
+            }}
+        >
+            {children}
+        </div>
+    );
+};
+const IconContainer: React.FC = () => {
+  return (
+      <div style={{
+          display: 'flex',
+          justifyContent: 'center', // Center the icons
+          alignItems: 'center',
+          padding: '20px 0', // Adjust padding as needed
+          borderBottom: '1px solid #eaeaea', // Optional: Add a bottom border
+          marginBottom: '0', // Ensure no margin below
+      }}>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faFacebook} />
+          </DockIcon>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faTwitter} />
+          </DockIcon>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faLinkedin} />
+          </DockIcon>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faGithub} />
+          </DockIcon>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faInstagram} />
+          </DockIcon>
+          <DockIcon size={18} magnification={60} distance={10}>
+              <FontAwesomeIcon icon={faYoutube} />
+          </DockIcon>
+      </div>
+  );
+};
 
 export default function Home() {
   const services = [
@@ -45,7 +113,6 @@ export default function Home() {
       icon: <div className="text-purple-500">📈</div>
     }
   ]
-
   const testimonials = [
     {
       author: "Alex Chen",
@@ -60,7 +127,7 @@ export default function Home() {
       avatar: "/avatars/sarah.jpg",
       content: "The team's expertise in blockchain development is unmatched. Best technical partnership we've had.",
       verified: true
-    },
+    },  
     {
       author: "David Kumar",
       handle: "@davidk_web3",
@@ -230,45 +297,7 @@ export default function Home() {
           </div>
         </div>
       </section> 
-{/* Projects Section */}
-<section className="py-20">
-  <div className="max-w-7xl mx-auto px-6">
-    <div className="text-center mb-16">
-      <h2 className="text-5xl font-bold text-[#6366F1] dark:text-white mb-4">
-        Successful Projects
-      </h2>
-      <p className="text-gray-600 dark:text-gray-300 text-xl">
-        Our track record of delivering exceptional results speaks for itself. Here are some of our recent success stories and what our clients have to say.
-      </p>
-    </div>
 
-    <div className="grid md:grid-cols-2 gap-8">
-      <div className="bg-white dark:bg-[#2A2D31] rounded-xl p-8 shadow-lg border border-gray-100 dark:border-gray-800">
-        <div className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg mb-6" />
-        <h3 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-white">
-          DeFi Platform Overhaul
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
-          Redesigned and optimized a major DeFi platform, resulting in a 200% increase in user engagement and $50M+ in additional locked value.
-        </p>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Client:</p>
-            <p className="font-medium text-gray-900 dark:text-white">FinTech Innovations Inc.</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Feedback:</p>
-            <p className="italic text-gray-600 dark:text-gray-300">
-              "Pandora Labs transformed our platform beyond our expectations. Their expertise in Web3 and UX design is unparalleled."
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Repeat for other project cards */}
-    </div>
-  </div>
-</section>
 <section className="py-20 bg-gray-50 dark:bg-gray-800/50">
   <div className="max-w-7xl mx-auto px-6">
     <div className="text-center mb-16">
@@ -428,6 +457,7 @@ export default function Home() {
     </div>
   </div>
 </section>
+<IconContainer />
 
 {/* Footer */}
 <footer className="bg-gray-50 dark:bg-gray-800/50 pt-20 pb-8">
@@ -467,7 +497,6 @@ export default function Home() {
         </div>
       ))}
     </div>
-    
     <div className="text-center pt-8 border-t border-gray-200 dark:border-gray-700">
       <p className="text-gray-600 dark:text-gray-400">
         © 2024 Pandora Labs. All rights reserved.
